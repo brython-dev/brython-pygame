@@ -1,36 +1,42 @@
 from browser import document, html, window
-from javascript import console, JSConstructor
+from javascript import JSConstructor
+from browser import console
 
 from .rect import Rect
 #import pygame.rect
 
-canvas_ID=1
+canvas_ID = 1
 
 _canvas_id=None
 
 class Surface:
   def __init__(self, dim=[], depth=16, surf=None):
-      if surf is None:
-         self._depth=depth
-         self._canvas=html.CANVAS(width=dim[0], height=dim[1])
-      elif isinstance(surf, Surface):
-         self._canvas=surf.copy()
-         #self._width=surf.get_width()
-         #self._height=surf.get_height()
-      elif isinstance(surf, html.CANVAS):
-         self._canvas=surf
-         #self._width=surf.style.width
-         #self._height=surf.style.height
+    global canvas_ID
+    if surf is None:
+       self._depth=depth
+       self._canvas=html.CANVAS(width=dim[0], height=dim[1])
+    elif isinstance(surf, Surface):
+       self._canvas=surf.copy()
+       #self._width=surf.get_width()
+       #self._height=surf.get_height()
+    elif isinstance(surf, html.CANVAS):
+       self._canvas=surf
+       #self._width=surf.style.width
+       #self._height=surf.style.height
 
-      self._context=self._canvas.getContext('2d')
-      self._canvas.id='layer_%s' % canvas_ID
-      #setattr(self._canvas.style, 'z-index',canvas_ID)
-      #setattr(self._canvas.style, 'position', 'relative')
-      #setattr(self._canvas.style, 'left', '0px')
-      #setattr(self._canvas.style, 'top', '0px')
-      canvas_ID+=1
+    self._context=self._canvas.getContext('2d')
+    self._canvas.id='layer_%s' % canvas_ID
+    #setattr(self._canvas.style, 'z-index',canvas_ID)
+    #setattr(self._canvas.style, 'position', 'relative')
+    #setattr(self._canvas.style, 'left', '0px')
+    #setattr(self._canvas.style, 'top', '0px')
+    canvas_ID += 1
+    
+    document['pydiv'] <= self._canvas
 
-      #document['pydiv'] <= self._canvas
+  @property
+  def context(self):
+    return self._context
 
   def blit(self, source, dest, area=None, special_flags=0):
       #if area is None and isinstance(source, str):
@@ -83,7 +89,7 @@ class Surface:
              
   def fill(self, color):
       """ fill canvas with this color """
-      self._context.fillStyle="rgb(%s,%s,%s)" % color
+      self._context.fillStyle="rgb(%s,%s,%s)" % color[0:3]
       #console.log(self._canvas.width, self._canvas.height, self._context.fillStyle)
       self._context.fillRect(0,0,self._canvas.width,self._canvas.height)
       #self._context.fill()

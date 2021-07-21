@@ -40,7 +40,8 @@ __docformat__ = 'restructuredtext'
 __version__ = '$Id$'
 
 from browser import html, window
-from javascript import JSConstructor, console
+from javascript import JSConstructor
+from browser import console
 
 #import os.path
 import os

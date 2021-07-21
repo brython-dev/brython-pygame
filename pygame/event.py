@@ -88,7 +88,7 @@ __version__ = '$Id$'
 from copy import copy
 #from ctypes import *  #brython
 
-from SDL import *
+from pygame.SDL import *
 import pygame.base
 import pygame.locals
 import pygame.display

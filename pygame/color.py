@@ -22,7 +22,7 @@
 
 
 try:
-    from colordict import THECOLORS
+    from pygame.colordict import THECOLORS
 except ImportError:
     #the colordict module isn't available
     THECOLORS = {}
@@ -65,7 +65,6 @@ def Color(colorname):
             return THECOLORS[name]
         except KeyError:
             raise ValueError("Illegal color name, " + name)
-
 
 
 def _splitcolor(color, defaultalpha=255):

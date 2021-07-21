@@ -1,6 +1,33 @@
-from javascript import console
-from browser import timer
+from browser import timer, console
 import math
+import pygame.base as base
+from pygame.rect import Rect
+
+
+def rect(surf, color, givenrect, width=0, border_radius=0):
+    if border_radius != 0:
+        print('**warning: border_radius not supported yet!')
+
+    if width < 0:
+        return
+
+    ctx = surf.context
+    ctx.beginPath()
+    if isinstance(givenrect, tuple) or isinstance(givenrect, list):
+        the_rect = Rect(*givenrect)
+    else:
+        the_rect = givenrect
+
+    if width == 0:
+        ctx.fillStyle = base.tuple_to_css_color(color)
+        ctx.fillRect(the_rect.left, the_rect.top, the_rect.width, the_rect.height)
+    else:
+        ctx.lineWidth = width
+        ctx.strokeStyle = base.tuple_to_css_color(color)
+        ctx.rect(the_rect.left, the_rect.top, the_rect.width, the_rect.height)
+
+    ctx.stroke()
+
 
 class Queue:
   def __init__(self):

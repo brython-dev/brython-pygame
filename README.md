@@ -7,8 +7,18 @@ and let users run this program in a web context
 
 ## Installation
 
-For now, just copy the `pygame/` folder in your project's source folder.
+[1]
+If you want to run examples, just move the pygame folder to `scripts/Lib/site-packages`,
+then run a HTTP server using `serve_files_HTTP.py`. Browse using Firefox or Chrome,
+and go to `examples` to see what can be done with *Brython-pygame*.
 
+[2]
+If your goal is to make an existing program work in the web, copy the
+`serve_files_HTTP.py` file, and the `pygame/` folder, and the `scripts/` folder
+into your project's source folder.
+
+You will also need an `index.html` file, you can take one from `examples/` and modify
+it to suit your needs.
 
 ## Credits
 

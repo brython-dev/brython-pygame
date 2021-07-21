@@ -39,7 +39,7 @@ __version__ = '$Id$'
 
 import sys
 
-from SDL import *
+from pygame.SDL import *
 import pygame.base
 import pygame.pkgdata
 import pygame.surface
@@ -164,53 +164,47 @@ def set_mode(resolution, flags=0, depth=0):
     global _display_surface
 
     w, h = resolution
+
     if w <= 0 or h <= 0:
         raise pygame.base.error('Cannot set 0 sized display mode')
 
-    if not SDL_WasInit(SDL_INIT_VIDEO):
-        init()
+    # - probably useless for web context (below)
 
-    if flags & SDL_OPENGL:
-        if flags & SDL_DOUBLEBUF:
-            flags &= ~SDL_DOUBLEBUF
-            SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1)
-        else:
-            SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 0)
-        if depth:
-            SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, depth)
-        surf = SDL_SetVideoMode(w, h, depth, flags)
-        if SDL_GL_GetAttribute(SDL_GL_DOUBLEBUFFER):
-            surf.flags |= SDL_DOUBLEBUF
-    else:
-        if not depth:
-           flags |= SDL_ANYFORMAT
-        surf = SDL_SetVideoMode(w, h, depth, flags)
-        title, icontitle = SDL_WM_GetCaption()
-        if not title:
-            SDL_WM_SetCaption('pygame window', 'pygame')
+    #
+    # if not SDL_WasInit(SDL_INIT_VIDEO):
+    #     init()
+    #
+    # if flags & SDL_OPENGL:
+    #     if flags & SDL_DOUBLEBUF:
+    #         flags &= ~SDL_DOUBLEBUF
+    #         SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1)
+    #     else:
+    #         SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 0)
+    #     if depth:
+    #         SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, depth)
+    #     surf = SDL_SetVideoMode(w, h, depth, flags)
+    #     if SDL_GL_GetAttribute(SDL_GL_DOUBLEBUFFER):
+    #         surf.flags |= SDL_DOUBLEBUF
+    # else:
+    #     if not depth:
+    #        flags |= SDL_ANYFORMAT
+    #     surf = SDL_SetVideoMode(w, h, depth, flags)
+    #     title, icontitle = SDL_WM_GetCaption()
+    #     if not title:
+    #         SDL_WM_SetCaption('pygame window', 'pygame')
+    #
+    # SDL_PumpEvents()
 
-    SDL_PumpEvents()
-
-    if _display_surface:
-        _display_surface._surf = surf
-    else:
-        #_display_surface = pygame.surface.Surface(surf=surf)
-        _display_surface = pygame.surface.Surface(dim=(w,h))
+    # if _display_surface:
+    #     _display_surface._surf = surf
+    # else:
+    global _display_surface
+    _display_surface = pygame.surface.Surface(dim=(w, h))
 
     document['pydiv'] <= _display_surface.canvas
-
-    if sys.platform != 'darwin':
-        if not _icon_was_set:
-            try:
-                file = pygame.pkgdata.getResource(_icon_defaultname)
-                iconsurf = pygame.image.load(file)
-                SDL_SetColorKey(iconsurf._surf, SDL_SRCCOLORKEY, 0)
-                set_icon(iconsurf)
-            except IOError:
-                # Not worth dying over.
-                pass
-
+    print('canvas id {} ADDED->ok'.format(_display_surface.canvas.id))
     return _display_surface
+
 
 def get_surface():
     '''Get current display surface.

@@ -1,5 +1,5 @@
 from browser import document #, mouseCoords
-from javascript import console
+from browser import console
 
 _mouse_x, _mouse_y=0,0
 

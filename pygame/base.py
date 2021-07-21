@@ -24,12 +24,16 @@ Most of the pygame examples do this if you'd like to take a look.
 __docformat__ = 'restructuredtext'
 __version__ = '$Id$'
 
-import atexit
-import sys
+# import atexit
+# import sys
 
 #import SDL
 
 _quitfunctions = []
+
+
+def tuple_to_css_color(color):
+    return f'rgb%r' % (tuple(color),)
 
 class error(RuntimeError):
     pass
@@ -70,7 +74,7 @@ def init():
     else:
         fail += 1
 
-    for mod in sys.modules.values():
+    for mod in []:  # sys.modules.values():
         if hasattr(mod, '__PYGAMEinit__') and callable(mod.__PYGAMEinit__):
             try:
                 mod.__PYGAMEinit__()
@@ -155,4 +159,4 @@ def _rgba_from_obj(obj):
     else:
         return None
 
-atexit.register(_atexit_quit)
+# atexit.register(_atexit_quit)

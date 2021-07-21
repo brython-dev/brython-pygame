@@ -30,8 +30,8 @@ Windows, MacOS, OS X, BeOS, FreeBSD, IRIX, and Linux.
 __docformat__ = 'restructuredtext'
 __version__ = '$Id$'
 
-import os
-import sys
+# import os
+# import sys
 
 class MissingModule:
     def __init__(self, name, info='', urgent=0):
@@ -81,16 +81,18 @@ __version__ = ver
 
 #added by earney
 from . import time
-from . import display
+import pygame.display as display
 from . import constants
-from . import event
+import pygame.event as event
 from . import font
-from . import mixer
+import pygame.mixer as mixer
 from . import sprite
 from .surface import Surface
-from . import image
-from . import mouse
+import pygame.image as image
+import pygame.mouse as mouse
 from . import transform
+import pygame.draw as draw
+
 
 #next, the "standard" modules
 #we still allow them to be missing for stripped down pygame distributions
@@ -190,4 +192,4 @@ def __rect_reduce(r):
 copyreg.pickle(Rect, __rect_reduce, __rect_constructor)
 
 #cleanup namespace
-del pygame, os, sys, #TODO rwobject, surflock, MissingModule, copy_reg
+del pygame  # os, sys, #TODO rwobject, surflock, MissingModule, copy_reg
