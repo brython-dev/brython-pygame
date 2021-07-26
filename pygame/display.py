@@ -199,7 +199,7 @@ def set_mode(resolution, flags=0, depth=0):
     #     _display_surface._surf = surf
     # else:
     global _display_surface
-    _display_surface = pygame.surface.Surface(dim=(w, h))
+    _display_surface = pygame.surface.Surface(size=(w, h))
 
     document['pydiv'] <= _display_surface.canvas
     print('canvas id {} ADDED->ok'.format(_display_surface.canvas.id))

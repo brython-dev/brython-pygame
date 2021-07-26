@@ -39,9 +39,8 @@ PNG, JPEG saving new in pygame 1.8.
 __docformat__ = 'restructuredtext'
 __version__ = '$Id$'
 
-from browser import html, window
-from javascript import JSConstructor
-from browser import console
+from browser import console, html, window, timer
+import javascript
 
 #import os.path
 import os
@@ -56,6 +55,47 @@ import pygame.surface
 #    #_have_SDL_image = True
 #except ImportError:
 _have_SDL_image = False
+
+
+# window.console.log(window.bidulee)
+# gamejs = window.gamejs
+
+
+##def preload_images(li_filename):  # good for HTML5
+##    window.console.log('pyside]preloading img called...')
+##    print(li_filename)
+##    window.img_mger.preload(li_filename)
+##    loaded = dict()
+##    for filenam in li_filename:
+##        loaded[filenam] = False
+##
+##    # block the pgm until every img can be accessed
+##    goal = len(li_filename)
+##    all_loaded = False
+##    
+##    while not all_loaded: 
+##        cpt = 0
+##        for nom_image in li_filename:
+##            tmp = window.img_mger.retrv_cached(nom_image)
+##            print('****', end='')
+##            print(tmp[0])
+##            if tmp[0] is not None:
+##                cpt += 1
+##        
+##        if cpt == goal:
+##            all_loaded = True
+
+
+def get_cached(nom_img: str):    
+    jsimg, iwidth, iheight = window.retrv_cached(nom_img)
+
+    # _canvas = html.CANVAS(width=iwidth, height=iheight)
+    # _ctx = _canvas.getContext('2d')
+    # _ctx.clearRect(0,0,iwidth,iheight)
+    # _ctx.drawImage(jsimg, 0, 0)
+    
+    return pygame.surface.Surface(size=(iwidth, iheight), jsimg=jsimg)
+
 
 def load_extended(file, namehint=''):
     '''Load new image from a file, using SDL.image.
@@ -85,18 +125,26 @@ def load_extended(file, namehint=''):
     return pygame.surface.Surface(surf=surf)
 
 def load_basic(file, namehint=''):
-    '''Load BMP image from a file.
+    '''
+    Load BMP image from a file.
 
     :see: `load`
 
     :Parameters:
-        `file` : str or file-like object
-            Image file or filename to load.
+        `file` : str
+            filename to load.
+        
         `namehint` : str
-            Ignored, for compatibility.
+            IGNORED /!\ for compatibility.
 
     :rtype: `Surface`
     '''
+
+    from pathlib import PurePath
+    fpath = file
+    path_split = PurePath(fpath).parts
+    return get_cached(path_split[-1])
+    
     #if not hasattr(file, 'read'):
     #    surf = SDL_LoadBMP(file)
     #else:
@@ -105,29 +153,49 @@ def load_basic(file, namehint=''):
     #    surf = SDL_LoadBMP_RW(rw, 0)
 
 
-    _img=JSConstructor(window.Image)()
-    _img.src=file
+    # - --  - ceci est le bout de code qui marchait pas du tout
+    #_img=JSConstructor(window.Image)()
+    #window.console.log('_img construction ->ok')
+    #_img.src=file
+    
+    # remplacé par :
+    # exemple de JS qui marche
+    #var image2 = new Image();
+    ##    image2.src = "andyGoofy.gif";
+    ##    con.drawImage(image2, 100, 100, 70, 50);
 
-    _img.canvas=html.CANVAS()
-    def img_onload(*args):
-        #http://www.jaypan.com/tutorial/javascript-passing-arguments-anonymous-functions-without-firing-function
-        #the onload files very slow so variables get messed up so we have
-        #to use args[0].path[0] to figure out the correct image
-        console.log(args)
-        if hasattr(args[0], 'target'):   # Firefox
-           this=args[0].target
-        else:                            #chrome
-           this=args[0].path[0]
-
-        this.canvas.width=this.width
-        this.canvas.height=this.height
-        this.canvas.getContext('2d').drawImage(this,0,0)
-        #this.loaded=True
-
-    _img.onload=img_onload
+    jsimage = window.Image
+    _img = jsimage.new()
+    _img.src = file
+    _img.canvas = html.CANVAS()
+    
+##    def img_onload_cb(*args):
+##        # #http://www.jaypan.com/tutorial/javascript-passing-arguments-anonymous-functions-without-firing-function
+##        # #the onload files very slow so variables get messed up so we have
+##        # # to use args[0].path[0] to figure out the correct image
+##        console.log(args)
+##        
+##        if hasattr(args[0], 'target'):  # Firefox
+##           this=args[0].target
+##        else:  #chrome
+##           this=args[0].path[0]
+##
+##        javascript.this.canvas.width = javascript.this.width
+##        javascript.this.canvas.height = javascript.this.height
+##        javascript.this.canvas.getContext('2d').drawImage(javascript.this, 0, 0)
+##        # ## this.loaded=True
+##    _img.onload = img_onload_cb
+    
     return pygame.surface.Surface(surf=_img.canvas)
 
 
+# Ive tried interfacing with GameJS but its hard...
+
+#def load(filename, namehint=''):
+#    return pygame.surface.Surface(dimensions=(0,0), fromSurface=gamejs.image.load(filename))
+
+
+# tryin to load with pure JS is hard, maybe best to try with gameJS? --> no
 def load(file, namehint=''):
     '''Load a new image from a file.
 
@@ -168,6 +236,7 @@ def load(file, namehint=''):
     #    return load_extended(file, namehint)
     #else:
     return load_basic(file, namehint)
+
 
 def save(surface, file):
     '''Save an image to disk.

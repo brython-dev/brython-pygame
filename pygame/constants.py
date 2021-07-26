@@ -1,22 +1,15 @@
-#!/usr/bin/env python
-
-'''Constants defined by SDL, and needed in pygame.
+"""
+Constants defined by SDL, and needed in pygame.
 
 Note that many of the flags for SDL are not needed in pygame, and are not
 included here.  These constants are generally accessed from the
 `pygame.locals` module.  This module is automatically placed in the pygame
 namespace, but you will usually want to place them directly into your module's
-namespace with the following command::
+namespace with the following command:
 
-    from pygame.locals import *
+from pygame.locals import *
+"""
 
-'''
-
-__docformat__ = 'restructuredtext'
-__version__ = '$Id$'
-
-#import SDL.constants
-# SDL constants taken from https://wiki.libsdl.org/SDLKeycodeLookup
 
 '''
 YV12_OVERLAY            = SDL.constants.SDL_YV12_OVERLAY
@@ -91,6 +84,7 @@ BLEND_MULT              = 0x03
 BLEND_MIN               = 0x04
 BLEND_MAX               = 0x05
 
+    
 """
 NOEVENT                 = SDL.constants.SDL_NOEVENT
 ACTIVEEVENT             = SDL.constants.SDL_ACTIVEEVENT
@@ -138,7 +132,6 @@ K_ASTERISK              = 42
 K_AT                    = 64
 K_BACKQUOTE             = 96
 K_BACKSLASH             = 92
-K_BACKSPACE             = 8
 #K_BREAK                 = SDL.constants.SDLK_BREAK
 K_CAPSLOCK              = 1073741881
 K_CARET                 = 94
@@ -151,7 +144,6 @@ K_DOLLAR                = 36
 K_DOWN                  = 1073741905
 K_END                   = 1073741901
 K_EQUALS                = 1073741927
-K_ESCAPE                = 27
 #K_EURO                  = SDL.constants.SDLK_EURO
 K_EXCLAIM               = 33
 K_F1                    = 1073741882
@@ -218,7 +210,6 @@ K_QUOTE                 = 39
 K_QUOTEDBL              = 34
 K_RALT                  = 1073742054
 K_RCTRL                 = 1073742052
-K_RETURN                = 13
 K_RIGHT                 = 1073741903
 #K_RIGHTBRACKET          = SDL.constants.SDLK_RIGHTBRACKET
 K_RIGHTPAREN            = 41
@@ -228,9 +219,8 @@ K_RSHIFT                = 1073742053
 K_SCROLLOCK             = 1073741895
 K_SEMICOLON             = 59
 K_SLASH                 = 47
-K_SPACE                 = 1073742029
+
 K_SYSREQ                = 1073741978
-K_TAB                   = 9
 K_UNDERSCORE            = 95
 K_UNDO                  = 1073741946
 K_UNKNOWN               = 0
@@ -363,3 +353,15 @@ K_y                     = 121
 K_z                     = 122
 #END GENERATED CONSTANTS
 
+QUIT = 256
+KEYUP = 769
+KEYDOWN = 768
+MOUSEMOTION = 1024
+MOUSEBUTTONDOWN = 1025
+MOUSEBUTTONUP = 1026
+K_SPACE = 32
+KMOD_SHIFT = 3
+K_BACKSPACE = 8
+K_TAB = 9
+K_RETURN = 13
+K_ESCAPE = 27
