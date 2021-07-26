@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <script type="text/javascript" src="../../scripts/brython.min.js"></script>
+    <script type="text/javascript" src="../../scripts/brython_stdlib.js"></script>
+    <script type="text/javascript" src="../../scripts/loading_mecha.js"></script>
+	<script type="text/javascript" src="preload_assets.js"></script>
+
+	<style>
+		#gjs-canvas {
+			border: none;
+			position: absolute;
+			top: 0px;
+			left: 0px;
+			height: 100%;
+			width: 100%;
+			image-rendering: pixelated;
+		}
+	</style>
+</head>	
+
+
+<body onload=gameInit()>
+
+<div id="pydiv">  <!-- for the emulation of pygame, will be filled by the display -->
+</div>
+
+<!--
+<script type="text/python">
+from browser import window
+window.console.log(1+1)
+</script>
+-->
+<script type="text/python" src="wrapped_game.py"></script>
+
+
+<canvas id="gjs-canvas" width="800px" height="600px">
+</canvas>
+
+</body>
+
+</html>
